@@ -127,20 +127,22 @@ def checkWrongAnswer(missedLetters, secretWord):
 
 # 최고 기록을 저장
 def recordHighestScore(gameScore):
+    mode = None
     if os.path.isdir(record_path):
         print("Check record is file. record_path: {}".format(record_path))
     # 파일이 없는 경우
     if not os.path.exists(record_path):
-        with open(record_path, 'a') as f:
-            f.write(str(gameScore))
+        mode = 'a'
     else:
         with open(record_path, "r") as f:
             highestScore = int(f.read())
         # 최고 점수보다 높으면 파일에 저장
         if gameScore > highestScore:
-            print("Congratulations on your new record!!! Your record is {}.".format(gameScore))
-            with open(record_path, "w") as f:
-                f.write(str(gameScore))
+            mode = 'w'
+    if mode:
+        print("Congratulations on your new record!!! Your record is {}.".format(gameScore))
+        with open(record_path, mode) as f:
+            f.write(str(gameScore))
 
 def main():
     """Main application entry point."""
